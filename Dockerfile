@@ -15,7 +15,7 @@ ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Install nginx and supervisord
 RUN apt-get update -qq && \
-    apt-get install -y -qq nginx supervisor build-essential libffi-dev libssl-dev python-dev
+    apt-get install -y -qq nginx supervisor build-essential libffi-dev libssl-dev python-dev git
 
 # Install requirements and gunicorn
 COPY ./requirements.txt /etc/requirements.txt

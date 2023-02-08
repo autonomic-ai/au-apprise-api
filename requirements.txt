@@ -1,6 +1,5 @@
 django
-apprise == 1.2.1
-
+git+https://github.com/autonomic-ai/au-apprise.git@master
 # 3rd party service support
 paho-mqtt
 gntp
