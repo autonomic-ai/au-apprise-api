@@ -30,19 +30,24 @@ WORKDIR /opt/apprise
 # Copy over Apprise API
 COPY apprise_api/ webapp
 
+
 # Cleanup
 RUN apt-get remove -y -qq build-essential libffi-dev libssl-dev python-dev && \
     apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
 
+RUN groupadd -g 1000 augroup
+RUN useradd -g augroup -u 1000 au
+
 # Configuration Permissions (to run nginx as a non-root user)
 RUN umask 0002 && \
     mkdir -p /config /run/apprise && \
-    chown www-data:www-data -R /run/apprise /var/lib/nginx /config
+    chown au:augroup -R /run/apprise /var/lib/nginx /config /var/log/nginx
+
 
 # Handle running as a non-root user (www-data is id/gid 33)
-USER www-data
+USER au
 VOLUME /config
 EXPOSE 8000
 CMD ["/usr/bin/supervisord", "-c", "/opt/apprise/webapp/etc/supervisord.conf"]
